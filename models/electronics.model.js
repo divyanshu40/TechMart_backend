@@ -783,5 +783,241 @@ const powerBankSchema = new mongoose.Schema({
 const screenGuardSchema = new mongoose.Schema({
     name: {
         type: String
+    },
+    brand: {
+        type: String
+    },
+    color: {
+        type: String
+    },
+    layers: {
+        type: Number
+    },
+    screenSize: {
+        type: Number
+    },
+    height: {
+        type: Number
+    },
+    width: {
+        type: Number
+    },
+    cameraHolePresent: {
+        type: Boolean
+    },
+    attributes: {
+        type: Map,
+        of: mongoose.Schema.Types.Mixed
+    },
+    features: {
+        type : String,
+        enum: [
+            "Scratch Resistant",
+            "Anti Glare",
+            "Air-bubble Proof",
+            "Anti Fingerprint",
+            "Anti Reflection",
+            "11D Tempered Glass",
+            "Anti Bacterial",
+            "UV Protection",
+            "Smart Screen Guard",
+            "Matte Screen Guard",
+            "6D Tempered Glass",
+            "Washable",
+            "Nano Liquid Screen Protector",
+            "Anti-Blue Light Guard",
+            "Privacy Screen Guard",
+            "3D Tempered Glass",
+            "Diamond Screen Guard",
+            "3D Screen Guard",
+            "Mirror Screen Guard",
+            "4D Screen Guard",
+            "4D Tempered Glass"
+        ]
+    },
+    ratings: {
+        type: Number
+    },
+    averageRating: {
+        type: Number
+    },
+    reviews: {
+        type: Number
+    },
+    orignalPrice: {
+        type: Number
+    },
+    discount: {
+        type: Number
+    },
+    discountedPrice: {
+        type: Number
+    },
+    offers: {
+        bankOffers: [
+            {
+                bankName: {
+                    type: String
+                },
+                offerOnBank: {
+                    type: Number
+                },
+                summary: {
+                    type: String
+                },
+                termsAndConditions: {
+                    type: String
+                }
+            }
+        ],
+        specialPriceOffers: {
+            offerPrice: {
+                type: Number
+            },
+            offerSummary: {
+                type: String
+            }
+        }
+    },
+    warranty: {
+        domesticWarranty: {
+            type: String
+        },
+        warrantySummary: {
+            type: String
+        },
+        warrantyServiceType: {
+            type: String
+        },
+        warrantyCoverage: {
+            type: String
+        },
+        notCoveredInWarranty: {
+            type: String
+        }
+    },
+    highlights: {
+        type: [String]
     }
-})
+}, {
+    timestamps: true
+});
+
+const memoryCardSchema = new mongoose.Schema({
+    name: {
+        type: String
+    },
+    brand: {
+        type: String
+    },
+    salesPackage: {
+        type: String
+    },
+    series: {
+        type: String
+    },
+    modelNumber: {
+        type: String
+    },
+    writeSpeed: {
+        type: Number
+    },
+    readSpeed: {
+        type: Number
+    },
+    storageCapacity: {
+        type: Number
+    },
+    cardType: {
+        type: String,
+        enum: [
+            "CFexpress",
+            "Compact Flash",
+            "Extreme Pro SDHC",
+            "Memory Stick",
+            "Memory Stick Pro Duo Card",
+            "Memory Stick PRO-HG Duo Card",
+            "Memory Stick XC",
+            "MicroSD Card",
+            "MicroSDHC",
+            "MicroSDXC",
+            "MMC",
+            "MMC Micro Card",
+            "P2 Card",
+            "SD Card",
+            "SDHC",
+            "SDHC UHS-I Card",
+            "SDXC",
+            "SDXC UHS-I Card",
+            "TF Card",
+            "Type B",
+            "Ultra SDHC"
+          ]
+    },
+    ratings: {
+        Number
+    },
+    averageRating: {
+        type: Number
+    },
+    reviews: {
+        type: Number
+    },
+    orignalPrice: {
+        type: Number
+    },
+    discount: {
+        type: Number
+    },
+    discountedPrice: {
+        type: Number
+    },
+    offers: {
+        bankOffers: [
+            {
+                bankName: {
+                    type: String
+                },
+                offerOnBank: {
+                    type: Number
+                },
+                summary: {
+                    type: String
+                },
+                termsAndConditions: {
+                    type: String
+                }
+            }
+        ],
+        specialPriceOffers: {
+            offerPrice: {
+                type: Number
+            },
+            offerSummary: {
+                type: String
+            }
+        }
+    },
+    warranty: {
+        domesticWarranty: {
+            type: String
+        },
+        warrantySummary: {
+            type: String
+        },
+        warrantyServiceType: {
+            type: String
+        },
+        warrantyCoverage: {
+            type: String
+        },
+        notCoveredInWarranty: {
+            type: String
+        }
+    },
+    highlights: {
+        type: [String]
+    }
+}, {
+    timestamps: true
+});
