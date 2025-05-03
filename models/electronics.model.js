@@ -444,7 +444,13 @@ const MobileSchema = new mongoose.Schema({
         interestRate: {
             type: Number
         }
-    } 
+    },
+    productImages: {
+        type: [String]
+    },
+    thumbnailImage: {
+        type: String
+    }
 },{
     timestamps: true
 });
@@ -524,6 +530,12 @@ const mobileCaseSchema = new mongoose.Schema({
     },
     returnPolicy: {
         days: Number
+    },
+    productImages: {
+        type: [Strings]
+    },
+    thumbnailImage: {
+        type: String
     }
 }, {
     timestamps: true
@@ -668,6 +680,12 @@ const headphonesAndEarPhonesSchema = new mongoose.Schema({
                 type: String
             }
         }
+    },
+    productImages: {
+        type: [String]
+    },
+    thumbnailImage: {
+        type: String
     }
 }, {
     timestamps: true
@@ -775,6 +793,12 @@ const powerBankSchema = new mongoose.Schema({
     },
     capacity: {
         type: Number
+    },
+    productImages: {
+        type: [String]
+    },
+    thumbnailImage: {
+        type: String
     }
 }, {
     timestamps: true
@@ -898,6 +922,12 @@ const screenGuardSchema = new mongoose.Schema({
     },
     highlights: {
         type: [String]
+    },
+    productImages: {
+        type: [String]
+    },
+    thumbnailImage: {
+        type: String
     }
 }, {
     timestamps: true
@@ -1017,7 +1047,174 @@ const memoryCardSchema = new mongoose.Schema({
     },
     highlights: {
         type: [String]
+    },
+    productImages: {
+        type: [String]
+    },
+    thumbnailImage: {
+        type: String
     }
 }, {
     timestamps: true
 });
+
+const mobileCablesSchema = new mongoose.Schema({
+    general: {
+        name: {
+            type: String
+        },
+        brand: {
+            type: String
+        },
+        cableType: {
+            type: String,
+            enum: [
+                "USB Type C Cable",
+                "Micro USB Cable",
+                "Lightning Cable",
+                "Type C",
+                "3-in-1 Cable",
+                "Power Sharing Cable",
+                "Magnetic Charging Cable",
+                "4-in-1 Cable",
+                "AUX Cable",
+                "Reversible USB 2.0",
+                "RCA Audio Video Cable",
+                "Stereo Audio Cable",
+                "Video Cable",
+                "2-in-1 Cable",
+                "Mono Audio Cable",
+                "Digital Coax Audio Cable",
+                "Reversible Micro USB",
+                "MHL Cable"
+                ]
+        },
+        connectors: {
+            connector_1: {
+                type: String
+            },
+            connector_2: {
+                type: String
+            }
+        },
+        cable: {
+            type: String
+        },
+        partNumber: {
+            type: String
+        },
+        model: {
+            type: String
+        },
+        compatibleDevices: {
+            type: [String]
+        },
+        cableLength: {
+            type: Number
+        },
+        otherGeneralFeatures: {
+            type: Map,
+            of: mongoose.Schema.Types.Mixed
+        }
+    },
+    materialFeatures: {
+        attributes: {
+            type: Map,
+            of: mongoose.Schema.Types.Mixed
+        }
+    },
+    transmissionFeatures: {
+        voltageRating: {
+            type: Number
+        },
+        maximumCurrentRating: {
+            type: Number
+        },
+        transmissionAttributes: {
+            type: Map,
+            of: mongoose.Schema.Types.Mixed
+        }
+    },
+    additionalFeatures: {
+        additionalFeaturesAttributes: {
+            type: Map,
+            of: mongoose.Schema.Types.Mixed
+        }
+    },
+    ratings: {
+        Number
+    },
+    averageRating: {
+        type: Number
+    },
+    reviews: {
+        type: Number
+    },
+    orignalPrice: {
+        type: Number
+    },
+    discount: {
+        type: Number
+    },
+    discountedPrice: {
+        type: Number
+    },
+    offers: {
+        bankOffers: [
+            {
+                bankName: {
+                    type: String
+                },
+                offerOnBank: {
+                    type: Number
+                },
+                summary: {
+                    type: String
+                },
+                termsAndConditions: {
+                    type: String
+                }
+            }
+        ],
+        specialPriceOffers: {
+            offerPrice: {
+                type: Number
+            },
+            offerSummary: {
+                type: String
+            }
+        }
+    },
+    warranty: {
+        domesticWarranty: {
+            type: String
+        },
+        warrantySummary: {
+            type: String
+        },
+        warrantyServiceType: {
+            type: String
+        },
+        warrantyCoverage: {
+            type: String
+        },
+        notCoveredInWarranty: {
+            type: String
+        }
+    },
+    highlights: {
+        type: [String]
+    },
+    productImages: {
+        type: [String]
+    },
+    thumbnailImage: {
+        type: String
+    }
+}, {
+    timestamps: true
+});
+
+const mobileChargers = new mongoose.Schema({
+    generalFeatures: {}
+})
