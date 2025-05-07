@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const { mobile } = require("./models/mobile.model");
-const { fetchedMobileData } = require("./models/fetchedMobileData.model");
 const { initializeDatabase } = require("./db/db.connect");
 const {
     casesAndCovers,
