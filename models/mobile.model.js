@@ -12,7 +12,7 @@ const MobileSchema = new mongoose.Schema({
             type: Number
         },
         internalStorage: {
-            type: Number
+            type: [Number]
         },
         batteryCapacity: {
             type: Number
@@ -47,7 +47,7 @@ const MobileSchema = new mongoose.Schema({
               ]
         },
         speciality: {
-            type: String
+            type: [String]
         },
         resolutionType: {
             type: String
@@ -148,12 +148,6 @@ const MobileSchema = new mongoose.Schema({
             type: Number
         }
     },
-    otherDetails: {
-       attributes: {
-        type: Map,
-        of: mongoose.Schema.Types.Mixed
-       }
-    },
     ratings: {
         type: Number
     },
@@ -191,35 +185,27 @@ const MobileSchema = new mongoose.Schema({
                 },
                 summary: {
                     type: String
-                },
-                termsAndConditions: {
-                    type: String
                 }
             }
         ],
-        noCostEmiOffers: {
-            bankName: {
-                type: [String],
-                default: ["American Express", "Axis Bank", "BOBCARD", "Bajaj Finserv", "DBS Bank", "Federal Bank", "HDFC Bank", "Yes Bank", "SBI Credit Card", "Induslnd Bank"]
+        noCostEmiOffers: [
+           {
+             bankName: {
+                type: String,
+                enum: ["American Express", "Axis Bank", "BOBCARD", "Bajaj Finserv", "DBS Bank", "Federal Bank", "HDFC Bank", "Yes Bank", "SBI Credit Card", "Induslnd Bank"]
             },
             months: {
                 type: [Number],
                 default: [3, 6, 9]
             }
-        },
-        specialPriceOffers: {
-            offerPrice: {
-                type: Number
-            },
-            offerSummary: {
-                type: String
-            }
-        }
+           }
+        ]
     },
-    emiOptions: {
-        bankName: {
-            type: [String],
-            default: ["American Express", "Axis Bank", "BOBCARD", "Bajaj Finserv", "DBS Bank", "Federal Bank", "HDFC Bank", "Yes Bank", "SBI Credit Card", "Induslnd Bank"]
+    emiOptions: [
+        {
+            bankName: {
+            type: String,
+            enum: ["American Express", "Axis Bank", "BOBCARD", "Bajaj Finserv", "DBS Bank", "Federal Bank", "HDFC Bank", "Yes Bank", "SBI Credit Card", "Induslnd Bank"]
         },
         totalEmis: {
             type: [Number]
@@ -227,7 +213,8 @@ const MobileSchema = new mongoose.Schema({
         interestRate: {
             type: Number
         }
-    },
+        }
+    ],
     productImages: {
         type: [String]
     },
