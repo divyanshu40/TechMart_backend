@@ -28,23 +28,6 @@ const MobileSchema = new mongoose.Schema({
         },
         processorBrand: {
             type: String,
-            enum:  [
-                "AMD",
-                "Apple",
-                "ARM",
-                "Exynos",
-                "Google",
-                "HiSilicon",
-                "Huawei",
-                "Intel",
-                "Mediatek",
-                "NVIDIA",
-                "Qualcomm",
-                "RDA",
-                "Snapdragon",
-                "Spreadtrum",
-                "Unisoc"
-              ]
         },
         speciality: {
             type: [String]
@@ -192,7 +175,6 @@ const MobileSchema = new mongoose.Schema({
            {
              bankName: {
                 type: String,
-                enum: ["American Express", "Axis Bank", "BOBCARD", "Bajaj Finserv", "DBS Bank", "Federal Bank", "HDFC Bank", "Yes Bank", "SBI Credit Card", "Induslnd Bank"]
             },
             months: {
                 type: [Number],
@@ -204,8 +186,7 @@ const MobileSchema = new mongoose.Schema({
     emiOptions: [
         {
             bankName: {
-            type: String,
-            enum: ["American Express", "Axis Bank", "BOBCARD", "Bajaj Finserv", "DBS Bank", "Federal Bank", "HDFC Bank", "Yes Bank", "SBI Credit Card", "Induslnd Bank"]
+            type: String
         },
         totalEmis: {
             type: [Number]
