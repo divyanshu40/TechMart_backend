@@ -5,13 +5,17 @@ const { initializeDatabase } = require("./db/db.connect");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-initializeDatabase();
+initializeDatabase().then(() => {
+    console.log("✅ Connected to MongoDB");
+
+    // ✅ START SERVER ONLY AFTER DB CONNECTS
+    app.listen(PORT, () => {
+        console.log(`🚀 Server is running on port ${PORT}`);
+    });
+})
 
 app.use(express.json());
 app.use(cors());
-app.listen(PORT, () => {
-    console.log("This server is running");
-});
 
 // function to get all mobiles
 async function getAllMobiles() {
