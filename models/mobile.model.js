@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const MobileSchema = new mongoose.Schema({
+    category: {
+        type: String
+    },
     generalFeatures: {
         name: {
             type: String
