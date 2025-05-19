@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { mobile } = require("./models/mobile.model");
 const { initializeDatabase } = require("./db/db.connect");
+const { laptop } = require("./models/laptop.model");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -43,6 +44,17 @@ app.post("/mobiles/new", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
     
+});
+
+// POST route to add laptop data
+app.post("/laptops/new", async (req, res) => {
+    const laptopData = req.body;
+    try {
+        const addedlaptop = await new laptop(laptopData).save();
+        return res.status(201).json({ newLaptop: addedlaptop });
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 // GET route to get all mobiles

@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 const laptopSchema = new mongoose.Schema({
+    category: {
+        type: String
+    },
     generalFeatures: {
         name: {
             type: String
@@ -76,11 +79,7 @@ const laptopSchema = new mongoose.Schema({
         graphicsProcessorName: {
             type: String
         },
-        colors: {
-            type: [String]
-        }
-    },
-    features: {
+        features: {
         type: [String]
     },
     otherGeneralFeatures: {
@@ -88,7 +87,8 @@ const laptopSchema = new mongoose.Schema({
             type: Map,
             of: mongoose.Schema.Types.Mixed
         }
-    },
+    }
+},
     processorAndMemoryFeatures: {
         attributes: {
         type: Map,
@@ -146,6 +146,9 @@ const laptopSchema = new mongoose.Schema({
     offers: {
         bankOffers: [
             {
+                id: {
+                    type: Number
+                },
                 bankName: {
                     type: String
                 },
@@ -154,44 +157,70 @@ const laptopSchema = new mongoose.Schema({
                 },
                 summary: {
                     type: String
-                },
-                termsAndConditions: {
-                    type: String
                 }
             }
         ],
-        specialPriceOffers: {
-            offerPrice: {
+        noCostEmiOffers: [
+           {
+            id: {
                 type: Number
             },
-            offerSummary: {
-                type: String
+             bankName: {
+                type: String,
+            },
+            months: {
+                type: [Number]
             }
-        }
+           }
+        ]
     },
+    standardEmis: [
+        {
+            id: {
+                type: Number
+            },
+            bankName: {
+            type: String
+        },
+        interestRate: {
+            type: Number
+        },
+         totalEmis: {
+            type: [Number]
+        }
+        }
+    ],
     warranty: {
         domesticWarranty: {
-            type: String
+            type: Number
         },
         warrantySummary: {
-            type: String
-        },
-        warrantyServiceType: {
             type: String
         },
         warrantyCoverage: {
             type: String
         },
-        notCoveredInWarranty: {
-            type: String
+    },
+    highlights: [
+        {
+            id: {
+                type: Number
+            },
+            highlightName: {
+                type: String
+            }
         }
-    },
-    highlights: {
-        type: [String]
-    },
-    productImages: {
-        type: [String]
-    },
+    ],
+    productImages: [
+        {
+            id: {
+                type: Number,
+            },
+            imageUrl: {
+                type: String
+            }
+        }
+    ],
     thumbnailImage: {
         type: String
     }
