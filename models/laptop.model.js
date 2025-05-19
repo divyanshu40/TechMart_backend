@@ -31,7 +31,6 @@ const laptopSchema = new mongoose.Schema({
             },
             ramtype: {
                 type: String,
-                enum: ["DDR4", "LPDDR4", "DDR3", "LPDDR5X", "LPDDR4X", "DDR5", "LPDDR5"]
             }
         },
         storage: {
@@ -39,8 +38,7 @@ const laptopSchema = new mongoose.Schema({
                 type: Number
             },
             storageType: {
-                type: String,
-                enum: ["SSD", "HDD"]
+                type: String
             }
         },
         screenSize: {
@@ -56,24 +54,14 @@ const laptopSchema = new mongoose.Schema({
             type: Boolean
         },
         usage: {
-            type: String,
-            enum: [
-                "Business",
-                "Student",
-                "Everyday Use",
-                "Home/Office",
-                "Processing and Multitasking",
-                "Gaming",
-                "Home/Office"
-            ]
+            type: String
         },
         graphicsMemory: {
             capacity: {
                 type: Number
             },
             graphicsMemoryType: {
-                type: String,
-                enum: ["LPDDR5", "DDR5", "DDR4", "GDDR5", "GDDR6"]
+                type: String
             }
         },
         graphicsProcessorName: {
