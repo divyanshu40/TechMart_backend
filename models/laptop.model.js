@@ -71,10 +71,12 @@ const laptopSchema = new mongoose.Schema({
         type: [String]
     },
     otherGeneralFeatures: {
-        attributes: {
-            type: Map,
-            of: mongoose.Schema.Types.Mixed
-        }
+        attributes: [
+            {
+                type: Map,
+                of: mongoose.Schema.Types.Mixed
+            }
+        ]
     }
 },
     processorAndMemoryFeatures: {
