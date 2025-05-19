@@ -80,40 +80,52 @@ const laptopSchema = new mongoose.Schema({
     }
 },
     processorAndMemoryFeatures: {
-        attributes: {
-        type: Map,
-        of: mongoose.Schema.Types.Mixed
-        }
+        attributes: [
+            {
+                type: Map,
+                of: mongoose.Schema.Types.Mixed
+            }
+        ]
     },
     operatingSystem: {
-        attributes: {
-        type: Map,
-        of: mongoose.Schema.Types.Mixed
-        }
+        attributes: [
+            {
+                type: Map,
+                of: mongoose.Schema.Types.Mixed
+            }
+        ]
     },
     portAndSlotFeatures: {
-        attributes: {
-        type: Map,
-        of: mongoose.Schema.Types.Mixed
-        }
+        attributes: [
+            {
+                type: Map,
+                of: mongoose.Schema.Types.Mixed
+            }
+        ]
     },
     displayAndAudioFeatures: {
-        attributes: {
-        type: Map,
-        of: mongoose.Schema.Types.Mixed
-        }
+        attributes: [
+            {
+                type: Map,
+                of: mongoose.Schema.Types.Mixed
+            }
+        ]
     },
     connectivityFeatures: {
-        attributes: {
-        type: Map,
-        of: mongoose.Schema.Types.Mixed
-        }
+       attributes: [
+            {
+                type: Map,
+                of: mongoose.Schema.Types.Mixed
+            }
+        ]
     },
     additionalFeatures: {
-        attributes: {
-            type: Map,
-            of: mongoose.Schema.Types.Mixed
-        }
+       attributes: [
+            {
+                type: Map,
+                of: mongoose.Schema.Types.Mixed
+            }
+        ]
     },
      ratings: {
         type: Number
