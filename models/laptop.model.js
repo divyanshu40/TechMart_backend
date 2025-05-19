@@ -29,7 +29,7 @@ const laptopSchema = new mongoose.Schema({
             ramCapacity: {
                 type: Number
             },
-            ramtype: {
+            ramType: {
                 type: String,
             }
         },
