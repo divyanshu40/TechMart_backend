@@ -33,6 +33,12 @@ async function getMobileDetailsById(productId) {
     return { mobile: mobileDetails };
 }
 
+// function to get all laptops
+async function getAllLaptops() {
+    let laptops = await laptop.find();
+    return { laptops: laptops };
+}
+
 
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
@@ -77,6 +83,19 @@ app.get("/mobiles/details/:id", async (req, res) => {
         let response = await getMobileDetailsById(productId);
         if (response === null) {
             return res.status(404).json({ message: "Mobile details not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET route to get all laptops
+app.get("/laptops", async (req, res) => {
+    try {
+        let response = await getAllLaptops();
+        if (response.laptops.length === 0) {
+            return res.status(404).json({ message: "Laptops not find" });
         }
         return res.status(200).json(response);
     } catch(error) {
