@@ -39,6 +39,55 @@ async function getAllLaptops() {
     return { laptops: laptops };
 }
 
+// function to filter mobiles on the basis of filter attributes
+async function filterMobiles(filterParams) {
+    let filter = {}
+    const {
+        brand,
+        ram, 
+        internalStorage,
+        batteryCapacity,
+        screenSize,
+        primaryCamera,
+        secondaryCamera,
+        processorBrand,
+        speciality,
+        resolutionType,
+        operatingSystem,
+        networkType,
+        simType,
+        features,
+        mobileType,
+        numberOfCores,
+        operatingSystemVersionName,
+        clockSpeed,
+        discountedPrice  
+    } = filterParams;
+    if (brand) {
+       filter["generalFeatures.brand"] = Array.isArray(brand) ? { $in: brand } : brand;
+    }
+    if (ram) {
+        filter["generalFeatures.ram"] = Array.isArray(ram) ? { $in: ram.map(Number) } : Number(ram);
+    }
+    if (internalStorage) {
+        filter["generalFeatures.internalStorage"] = Array.isArray(internalStorage) ? { $in: internalStorage.map(Number) } : Number(internalStorage);
+    }
+    if (batteryCapacity) {
+        let batteryCapacityRanges = Array.isArray(batteryCapacity) ? batteryCapacity : [batteryCapacity];
+        let batteryCapacityFilters = batteryCapacityRanges.map((range) => {
+            const [min, max] = range.split("-").map(Number);
+            return { "generalFeatures.batteryCapacity":  { $gte: min, $lte: max } }
+        });
+        if (filter.$or) {
+            filter.$or = [...filter.$or, ...batteryCapacityFilters]
+        } else {
+            filter.$or = batteryCapacityFilters;
+        }
+    }
+    let mobiles = await mobile.find(filter);
+    return { mobiles: mobiles };
+}
+
 
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
@@ -102,3 +151,22 @@ app.get("/laptops", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// GET route to filter mobiles
+app.get("/mobiles/filter", async (req, res) => {
+    let filterParams = req.query;
+    try {
+        let response = await filterMobiles(filterParams);
+        if (response.mobiles.length === 0) {
+            return res.status(404).json({ message: "Mobiles not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+let array1 = [1, 2, 3, 4];
+let array2 = [5, 6, 7];
+array1 = [...array1,... array2];
+console.log(array1);
