@@ -166,7 +166,7 @@ async function filterMobiles(filterParams) {
         let discountedPriceRange = Array.isArray(discountedPrice) ? discountedPrice : [discountedPrice];
         let discountedPriceFilters = discountedPriceRange.map((range) => {
             const [min, max] = range.split("-").map(Number);
-            return { discountedPrice: { $gte: min, lte: max } }
+            return { "discountedPrice": { $gte: min, lte: max } }
         });
         if (filter.$or) {
             filter.$or = [...filter.$or, ...discountedPriceFilters];
