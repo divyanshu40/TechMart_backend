@@ -368,7 +368,7 @@ app.get("/laptops", async (req, res) => {
 });
 
 // GET route to get laptop by id
-app.get("/laptop/details/:id", async (req, res) => {
+app.get("/laptops/details/:id", async (req, res) => {
     let laptopId = req.params.id;
     try {
         let response = await getLaptopById(laptopId);
