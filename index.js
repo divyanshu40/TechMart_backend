@@ -78,10 +78,10 @@ async function filterMobiles(filterParams) {
             const [min, max] = range.split("-").map(Number);
             return { "generalFeatures.batteryCapacity":  { $gte: min, $lte: max } }
         });
-        if (filter.$or) {
-            filter.$or = [...filter.$or, ...batteryCapacityFilters]
+        if (Array.isArray(filter.$and)) {
+            filter.$and.push({ $or: batteryCapacityFilters });
         } else {
-            filter.$or = batteryCapacityFilters;
+            filter.$and = [{ $or: batteryCapacityFilters }];
         }
     }
     if (screenSize) {
@@ -90,10 +90,10 @@ async function filterMobiles(filterParams) {
             const [min, max] = range.split("-").map(Number);
             return { "generalFeatures.screenSize": { $gte: min, $lte: max } }
         });
-        if (filter.$or) {
-            filter.$or = [...filter.$or, ...screenSizeFilters]
+        if (Array.isArray(filter.$and)) {
+            filter.$and.push({ $or: screenSizeFilters });
         } else {
-            filter.$or = screenSizeFilters
+            filter.$and = [{ $or: screenSizeFilters }];
         }
     }
     if (primaryCamera) {
@@ -102,11 +102,11 @@ async function filterMobiles(filterParams) {
             const [min, max] = range.split("-").map(Number);
             return { "generalFeatures.primaryCamera": { $gte: min, $lte: max } }
         })
-        if (filter.$or) {
-            filter.$or = [...filter.$or, ...primaryCameraFilters];
-        } else {
-            filter.$or = primaryCameraFilters
-        }
+       if (Array.isArray(filter.$and)) {
+        filter.$and.push({ $or: primaryCameraFilters });
+       } else {
+        filter.$and = [{ $or: primaryCameraFilters }];
+       }
     }
     if (secondaryCamera) {
         let secondaryCameraRange = Array.isArray(secondaryCamera) ? secondaryCamera : [secondaryCamera];
@@ -114,41 +114,41 @@ async function filterMobiles(filterParams) {
             const [min, max] = range.split("-").map(Number);
             return { "generalFeatures.secondaryCamera": { $gte: min, $lte: max } }
         });
-        if (filter.$or) {
-            filter.$or = [...filter.$or, ...secondaryCameraFilters];
-        } else {
-            filter.$or = secondaryCameraFilters;
-        }
+       if (Array.isArray(filter.$and)) {
+        filter.$and.push({ $or: secondaryCameraFilters });
+       } else {
+        filter.$and = [{ $or: secondaryCameraFilters }];
+       }
     }
     if (processorBrand) {
-        filter.processorBrand = Array.isArray(processorBrand) ? { $in: processorBrand } : processorBrand
+        filter["generalFeatures.processorBrand"] = Array.isArray(processorBrand) ? { $in: processorBrand } : processorBrand
     }
     if (speciality) {
-        filter.speciality = Array.isArray(speciality) ? { $in: speciality} : speciality
+        filter["generalFeatures.speciality"] = Array.isArray(speciality) ? { $in: speciality} : speciality
     }
     if (resolutionType) {
-        filter.resolutionType = Array.isArray(resolutionType) ? { $in: resolutionType } : resolutionType
+        filter["generalFeatures.resolutionType"] = Array.isArray(resolutionType) ? { $in: resolutionType } : resolutionType
     }
     if (operatingSystem) {
-        filter.operatingSystem = Array.isArray(operatingSystem) ? { $in: operatingSystem } : operatingSystem
+        filter["generalFeatures.operatingSystem"] = Array.isArray(operatingSystem) ? { $in: operatingSystem } : operatingSystem
     }
     if (networkType) {
-        filter.networkType = Array.isArray(networkType) ? { $in: networkType } : networkType
+        filter["generalFeatures.networkType"] = Array.isArray(networkType) ? { $in: networkType } : networkType
     }
     if (simType) {
-        filter.simType = Array.isArray(simType) ? { $in: simType } : simType
+        filter["generalFeatures.simType"] = Array.isArray(simType) ? { $in: simType } : simType
     }
     if (features) {
-        filter.features = Array.isArray(features) ? { $in: features } : features
+        filter["generalFeatures.features"] = Array.isArray(features) ? { $in: features } : features
     } 
     if (mobileType) {
-        filter.mobileType = Array.isArray(mobileType) ? { $in: mobileType } : mobileType
+        filter["generalFeatures.mobileType"] = Array.isArray(mobileType) ? { $in: mobileType } : mobileType
     }
     if(numberOfCores) {
-        filter.numberOfCores = Array.isArray(numberOfCores) ? { $in: numberOfCores } : numberOfCores
+        filter["generalFeatures.numberOfCores"] = Array.isArray(numberOfCores) ? { $in: numberOfCores } : numberOfCores
     }
     if (operatingSystemVersionName) {
-        filter.operatingSystemVersionName = Array.isArray(operatingSystemVersionName) ? { $in: operatingSystemVersionName} : operatingSystemVersionName
+        filter["generalFeatures.operatingSystemVersionName"] = Array.isArray(operatingSystemVersionName) ? { $in: operatingSystemVersionName} : operatingSystemVersionName
     }
     if(clockSpeed) {
         let clockSpeedRange = Array.isArray(clockSpeed) ? clockSpeed : [clockSpeed];
@@ -156,11 +156,11 @@ async function filterMobiles(filterParams) {
             const [min, max] = range.split("-").map(Number);
             return { "generalFeatures.clockSpeed": { $gte: min, $lte: max } }
         });
-        if (filter.$or) {
-            filter.$or = [...filter.$or, ...clockSpeedFilters];
-        } else {
-            filter.$or = clockSpeedFilters;
-        }
+       if (Array.isArray(filter.$and)) {
+        filter.$and.push({ $or: clockSpeedFilters });
+       } else {
+        filter.$and = [{ $or: clockSpeedFilters }];
+       }
     }
     if (discountedPrice) {
         let discountedPriceRange = Array.isArray(discountedPrice) ? discountedPrice : [discountedPrice];
@@ -168,15 +168,130 @@ async function filterMobiles(filterParams) {
             const [min, max] = range.split("-").map(Number);
             return { discountedPrice: { $gte: min, $lte: max } }
         });
-        if (filter.$or) {
-            filter.$or = [...filter.$or, ...discountedPriceFilters];
-        } else {
-            filter.$or = discountedPriceFilters;
-        }
+       if (Array.isArray(filter.$and)) {
+        filter.$and.push({ $or: discountedPriceFilters });
+       } else {
+        filter.$and = [{ $or: discountedPriceFilters }];
+       }
     }
     
     let mobiles = await mobile.find(filter);
     return { mobiles: mobiles };
+}
+
+// function to filter laptops
+async function filterLaptops(filterParams) {
+   let {
+    brand,
+    laptopType,
+    processorType,
+    processorGeneration,
+    processorBrand,
+    ramCapacity,
+    ramType,
+    storageCapacity,
+    storageType,
+    screenSize,
+    operatingSystem,
+    weight,
+    isTouchScreen,
+    usage,
+    graphicsMemoryCapacity,
+    graphicsMemoryType,
+    graphicsProcessorName,
+    features,
+    discountedPrice
+   } = filterParams;
+
+   let filter = {};
+
+   if (brand) {
+    filter["generalFeatures.brand"] = Array.isArray(brand) ? { $in: brand } : brand;
+   }
+   if (laptopType) {
+    filter["generalFeatures.laptopType"] = Array.isArray(laptopType) ? { $in: laptopType } : laptopType;
+   }
+   if (processorType) {
+    filter["generalFeatures.processor.processorType"] = Array.isArray(processorType) ? { $in: processorType } : processorType
+   }
+   if (processorGeneration) {
+    filter["generalFeatures.processor.processorGeneration"] = Array.isArray(processorGeneration) ? { $in: processorGeneration} : processorGeneration;
+   }
+   if (processorBrand) {
+    filter["generalFeatures.brand.processor.processorBrand"] = Array.isArray(processorBrand) ? { $in: processorBrand } : processorBrand;
+   }
+   if (ramCapacity) {
+    filter["generalFeatures.ram.ramCapacity"] = Array.isArray(ramCapacity) ? { $in: ramCapacity.map(Number) } : Number(ramCapacity);
+   }
+   if (ramType) {
+    filter["generalFeatures.ram.ramType"] = Array.isArray(ramType) ? { $in: ramType } : ramType;
+   }
+   if (storageCapacity) {
+    filter["generalFeatures.storage.storageCapacity"] = Array.isArray(storageCapacity) ? { $in: storageCapacity.map(Number) } : Number(storageCapacity);
+   }
+   if (storageType) {
+    filter["generalFeatures.storage.storageType"] = Array.isArray(storageType) ? { $in: storageType } : storageType
+   }
+   if (screenSize) {
+    let screenSizeRanges = Array.isArray(screenSize) ? screenSize : [screenSize];
+    let screenSizeFilters = screenSizeRanges.map((range) => {
+        const [min, max] = range.split("-").map(Number);
+        return { "generalFeatures.screenSize": { $gte: min, $lte: max } }
+    });
+    if (Array.isArray(filter.$and)) {
+        filter.$and.push({ $or: screenSizeFilters });
+    } else {
+        filter.$and = [{ $or: screenSizeFilters }];
+    }
+   }
+   if (operatingSystem) {
+    filter["generalFeatures.operatingSystem"] = Array.isArray(operatingSystem) ? { $in: operatingSystem } : operatingSystem;
+   }
+   if (weight) {
+    let weightRanges = Array.isArray(weight) ? weight : [weight];
+    let weightFilters = weightRanges.map((range) => {
+        const [min, max] = range.split("-").map(Number);
+        return { "generalFeatures.weight": { $gte: min, $lte: max } }
+    });
+    if (Array.isArray(filter.$and)) {
+        filter.$and.push({ $or: weightFilters });
+    } else {
+        filter.$and = [{ $or: weightFilters }];
+    }
+   }
+   if (isTouchScreen) {
+    filter["generalFeatures.isTouchScreen"] = isTouchScreen === "true";
+   }
+   if (usage) {
+    filter["generalFeatures.usage"] = Array.isArray(usage) ? { $in: usage } : usage;
+   }
+   if (graphicsMemoryCapacity) {
+    filter["generalFeatures.graphicsMemory.capacity"] = Array.isArray(graphicsMemoryCapacity) ? { $in: graphicsMemoryCapacity.map(Number)} : Number(graphicsMemoryCapacity);
+   }
+   if (graphicsMemoryType) {
+    filter["generalFeatures.graphicsMemory.graphicsMemoryType"] = Array.isArray(graphicsMemoryType) ? { $in: graphicsMemoryType} : graphicsMemoryType;
+   }
+   if (features) {
+    filter["generalFeatures.features"] = Array.isArray(features) ? { $in: features } : features;
+   }
+   if (graphicsProcessorName) {
+    filter["generalFeatures.graphicsProcessorName"] = Array.isArray(graphicsProcessorName) ? { $in: graphicsProcessorName} : graphicsProcessorName;
+   }
+   if (discountedPrice) {
+    let priceRanges = Array.isArray(discountedPrice) ? discountedPrice : [discountedPrice];
+    let priceFilters = priceRanges.map((range) => {
+        const [min, max] = range.split("-").map(Number);
+        return { discountedPrice: { $gte: min, $lte: max } }
+    });
+    if (Array.isArray(filter.$and)) {
+        filter.$and.push({ $or: priceFilters });
+    } else {
+        filter.$and = [{ $or: priceFilters }]
+    }
+   }
+
+   let laptops = await laptop.find(filter);
+   return { laptops: laptops };
 }
 
 
@@ -257,3 +372,16 @@ app.get("/mobiles/filter", async (req, res) => {
     }
 });
 
+// GET route to filter laptops
+app.post("/laptops/filter", async (req, res) => {
+    let filterParams = req.query;
+    try {
+        let response = await filterLaptops(filterParams);
+        if (response.laptops.length === 0) {
+            return res.status(404).json({ message: "Laptops not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
