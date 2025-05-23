@@ -84,6 +84,97 @@ async function filterMobiles(filterParams) {
             filter.$or = batteryCapacityFilters;
         }
     }
+    if (screenSize) {
+        let screenSizeRange = Array.isArray(screenSize) ? screenSize : [screenSize];
+        let screenSizeFilters = screenSizeRange.map((range) => {
+            const [min, max] = range.split("-").map(Number);
+            return { "generalFeatures.screenSize": { $gte: min, $lte: max } }
+        });
+        if (filter.$or) {
+            filter.$or = [...filter.$or, ...screenSizeFilters]
+        } else {
+            filter.$or = screenSizeFilters
+        }
+    }
+    if (primaryCamera) {
+        let primaryCameraRange = Array.isArray(primaryCamera) ? primaryCamera : [primaryCamera];
+        let primaryCameraFilters = primaryCameraRange.map((range) => {
+            const [min, max] = range.split("-").map(Number);
+            return { "generalFeatures.primaryCamera": { $gte: min, $lte: max } }
+        })
+        if (filter.$or) {
+            filter.$or = [...filter.$or, ...primaryCameraFilters];
+        } else {
+            filter.$or = primaryCameraFilters
+        }
+    }
+    if (secondaryCamera) {
+        let secondaryCameraRange = Array.isArray(secondaryCamera) ? secondaryCamera : [secondaryCamera];
+        let secondaryCameraFilters = secondaryCameraRange.map((range) => {
+            const [min, max] = range.split("-").map(Number);
+            return { "generalFeatures.secondaryCamera": { $gte: min, $lte: max } }
+        });
+        if (filter.$or) {
+            filter.$or = [...filter.$or, ...secondaryCameraFilters];
+        } else {
+            filter.$or = secondaryCameraFilters;
+        }
+    }
+    if (processorBrand) {
+        filter.processorBrand = Array.isArray(processorBrand) ? { $in: processorBrand } : processorBrand
+    }
+    if (speciality) {
+        filter.speciality = Array.isArray(speciality) ? { $in: speciality} : speciality
+    }
+    if (resolutionType) {
+        filter.resolutionType = Array.isArray(resolutionType) ? { $in: resolutionType } : resolutionType
+    }
+    if (operatingSystem) {
+        filter.operatingSystem = Array.isArray(operatingSystem) ? { $in: operatingSystem } : operatingSystem
+    }
+    if (networkType) {
+        filter.networkType = Array.isArray(networkType) ? { $in: networkType } : networkType
+    }
+    if (simType) {
+        filter.simType = Array.isArray(simType) ? { $in: simType } : simType
+    }
+    if (features) {
+        filter.features = Array.isArray(features) ? { $in: features } : features
+    } 
+    if (mobileType) {
+        filter.mobileType = Array.isArray(mobileType) ? { $in: mobileType } : mobileType
+    }
+    if(numberOfCores) {
+        filter.numberOfCores = Array.isArray(numberOfCores) ? { $in: numberOfCores } : numberOfCores
+    }
+    if (operatingSystemVersionName) {
+        filter.operatingSystemVersionName = Array.isArray(operatingSystemVersionName) ? { $in: operatingSystemVersionName} : operatingSystemVersionName
+    }
+    if(clockSpeed) {
+        let clockSpeedRange = Array.isArray(clockSpeed) ? clockSpeed : [clockSpeed];
+        let clockSpeedFilters = clockSpeedRange.map((range) => {
+            const [min, max] = range.split("-").map(Number);
+            return { "generalFeatures.clockSpeed": { $gte: min, $lte: max } }
+        });
+        if (filter.$or) {
+            filter.$or = [...filter.$or, ...clockSpeedFilters];
+        } else {
+            filter.$or = clockSpeedFilters;
+        }
+    }
+    if (discountedPrice) {
+        let discountedPriceRange = Array.isArray(discountedPrice) ? discountedPrice : [discountedPrice];
+        let discountedPriceFilters = discountedPriceRange.map((range) => {
+            const [min, max] = range.split("-").map(Number);
+            return { discountedPrice: { $gte: min, lte: max } }
+        });
+        if (filter.$or) {
+            filter.$or = [...filter.$or, ...discountedPriceFilters];
+        } else {
+            filter.$or = discountedPriceFilters;
+        }
+    }
+    
     let mobiles = await mobile.find(filter);
     return { mobiles: mobiles };
 }
@@ -166,7 +257,3 @@ app.get("/mobiles/filter", async (req, res) => {
     }
 });
 
-let array1 = [1, 2, 3, 4];
-let array2 = [5, 6, 7];
-array1 = [...array1,... array2];
-console.log(array1);
