@@ -3,6 +3,7 @@ const cors = require("cors");
 const { mobile } = require("./models/mobile.model");
 const { initializeDatabase } = require("./db/db.connect");
 const { laptop } = require("./models/laptop.model");
+const { cart } = require("./models/cart.model");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -326,6 +327,17 @@ app.post("/laptops/new", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// POST route to add product to cart
+app.post("/cart/new", async (req, res) => {
+    let productData = req.body;
+    try {
+        let cartDetails = await new cart(productData).save();
+        return res.status(201).json({ cart: cartDetails });
+    } catch(error) {
+        res.staus(500).json({ error: error.message });
+    }
+})
 
 // GET route to get all mobiles
 app.get("/mobiles", async (req, res) => {
