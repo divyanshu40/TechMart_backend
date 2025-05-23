@@ -39,6 +39,15 @@ async function getAllLaptops() {
     return { laptops: laptops };
 }
 
+// function to get laptop details by id
+async function getLaptopById(laptopId) {
+    let laptopDetails = await laptop.findById(laptopId);
+    if (!laptopDetails) {
+        return null;
+    }
+    return { laptop: laptopDetails };
+}
+
 // function to filter mobiles on the basis of filter attributes
 async function filterMobiles(filterParams) {
     let filter = {}
@@ -351,6 +360,20 @@ app.get("/laptops", async (req, res) => {
         let response = await getAllLaptops();
         if (response.laptops.length === 0) {
             return res.status(404).json({ message: "Laptops not find" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET route to get laptop by id
+app.get("/laptop/details/:id", async (req, res) => {
+    let laptopId = req.params.id;
+    try {
+        let response = await getLaptopById(laptopId);
+        if (response === null) {
+            return res.status(404).json({ message: "Laptop not found" });
         }
         return res.status(200).json(response);
     } catch(error) {
