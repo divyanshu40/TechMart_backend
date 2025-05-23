@@ -200,7 +200,7 @@ async function filterLaptops(filterParams) {
     graphicsMemoryType,
     graphicsProcessorName,
     features,
-    discountedPrice
+    price
    } = filterParams;
 
    let filter = {};
@@ -277,8 +277,8 @@ async function filterLaptops(filterParams) {
    if (graphicsProcessorName) {
     filter["generalFeatures.graphicsProcessorName"] = Array.isArray(graphicsProcessorName) ? { $in: graphicsProcessorName} : graphicsProcessorName;
    }
-   if (discountedPrice) {
-    let priceRanges = Array.isArray(discountedPrice) ? discountedPrice : [discountedPrice];
+   if (price) {
+    let priceRanges = Array.isArray(price) ? price : [price];
     let priceFilters = priceRanges.map((range) => {
         const [min, max] = range.split("-").map(Number);
         return { discountedPrice: { $gte: min, $lte: max } }
