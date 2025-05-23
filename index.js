@@ -373,7 +373,7 @@ app.get("/mobiles/filter", async (req, res) => {
 });
 
 // GET route to filter laptops
-app.post("/laptops/filter", async (req, res) => {
+app.get("/laptops/filter", async (req, res) => {
     let filterParams = req.query;
     try {
         let response = await filterLaptops(filterParams);
