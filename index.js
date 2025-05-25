@@ -304,6 +304,17 @@ async function filterLaptops(filterParams) {
    return { laptops: laptops };
 }
 
+// function to get mobiles by brand
+async function getMobilesByBrand(mobileBrand) {
+    let mobiles = await mobile.find({"generalFeatures.brand": mobileBrand });
+    return { mobiles: mobiles };
+}
+
+// function to get laptops by brand
+async function getLaptopsByBrand(laptopBrand) {
+    let laptops = await laptop.find({ "generalFeatures.brand": laptopBrand });
+    return { laptops: laptops };
+}
 
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
@@ -393,6 +404,20 @@ app.get("/laptops/details/:id", async (req, res) => {
     }
 });
 
+// GET route to get mobiles by brand
+app.get("/mobiles/brand/:brand", async (req, res) => {
+    let mobileBrand = req.params.brand;
+    try {
+        let response = await getMobilesByBrand(mobileBrand);
+        if (response.mobiles.length === 0) {
+            return res.status(404).json({ message: "Mobiles not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // GET route to filter mobiles
 app.get("/mobiles/filter", async (req, res) => {
     let filterParams = req.query;
@@ -412,6 +437,20 @@ app.get("/laptops/filter", async (req, res) => {
     let filterParams = req.query;
     try {
         let response = await filterLaptops(filterParams);
+        if (response.laptops.length === 0) {
+            return res.status(404).json({ message: "Laptops not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET route to get laptops by brand
+app.get("/laptops/brand/:brand", async (req, res) => {
+    let laptopBrand = req.params.brand;
+    try {
+        let response = await getLaptopsByBrand(laptopBrand);
         if (response.laptops.length === 0) {
             return res.status(404).json({ message: "Laptops not found" });
         }
