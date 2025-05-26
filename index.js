@@ -71,7 +71,7 @@ async function filterMobiles(filterParams) {
         numberOfCores,
         operatingSystemVersionName,
         clockSpeed,
-        discountedPrice  
+        price  
     } = filterParams;
     if (brand) {
        filter["generalFeatures.brand"] = Array.isArray(brand) ? { $in: brand } : brand;
@@ -172,16 +172,16 @@ async function filterMobiles(filterParams) {
         filter.$and = [{ $or: clockSpeedFilters }];
        }
     }
-    if (discountedPrice) {
-        let discountedPriceRange = Array.isArray(discountedPrice) ? discountedPrice : [discountedPrice];
-        let discountedPriceFilters = discountedPriceRange.map((range) => {
+    if (price) {
+        let priceRange = Array.isArray(price) ? price : [price];
+        let priceFilters = priceRange.map((range) => {
             const [min, max] = range.split("-").map(Number);
             return { discountedPrice: { $gte: min, $lte: max } }
         });
        if (Array.isArray(filter.$and)) {
-        filter.$and.push({ $or: discountedPriceFilters });
+        filter.$and.push({ $or: priceFilters });
        } else {
-        filter.$and = [{ $or: discountedPriceFilters }];
+        filter.$and = [{ $or: priceFilters }];
        }
     }
     
