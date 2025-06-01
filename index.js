@@ -346,7 +346,7 @@ app.post("/cart/new", async (req, res) => {
         let cartDetails = await new cart(productData).save();
         return res.status(201).json({ cart: cartDetails });
     } catch(error) {
-        res.staus(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 })
 
@@ -459,3 +459,8 @@ app.get("/laptops/brand/:brand", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+let array1 = [1, 2, 3, 4];
+let array2 = [...array1, 5];
+console.log(array2)
+
