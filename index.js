@@ -4,6 +4,7 @@ const { mobile } = require("./models/mobile.model");
 const { initializeDatabase } = require("./db/db.connect");
 const { laptop } = require("./models/laptop.model");
 const { cart } = require("./models/cart.model");
+const {wishlist } = require("./models/wishlist.model");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -316,6 +317,12 @@ async function getLaptopsByBrand(laptopBrand) {
     return { laptops: laptops };
 }
 
+// function to get all cart items
+async function getCartItems() {
+    let items = await cart.find();
+    return { cartItems: items };
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -348,7 +355,18 @@ app.post("/cart/new", async (req, res) => {
     } catch(error) {
         res.status(500).json({ error: error.message });
     }
-})
+});
+
+// POST route to add product to wishlist
+app.post("/wishlist/new", async (req, res) => {
+    let productData = req.body;
+    try {
+        let addedProductData = await new wishlist(productData).save();
+        return res.status(201).json({ message: "Item added to wishlist", wishlist: addedProductData });
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 // GET route to get all mobiles
 app.get("/mobiles", async (req, res) => {
@@ -453,6 +471,19 @@ app.get("/laptops/brand/:brand", async (req, res) => {
         let response = await getLaptopsByBrand(laptopBrand);
         if (response.laptops.length === 0) {
             return res.status(404).json({ message: "Laptops not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET route to get all cart items
+app.get("/cart", async (req, res) => {
+    try {
+        let response = await getCartItems();
+        if (response.cartItems.length === 0) {
+            return res.status(404).json({ message: "No items found"});
         }
         return res.status(200).json(response);
     } catch(error) {
