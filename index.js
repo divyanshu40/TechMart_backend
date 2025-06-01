@@ -323,6 +323,12 @@ async function getCartItems() {
     return { cartItems: items };
 }
 
+// function to get all wishlist items
+async function getWishlistItems() {
+    let items = await wishlist.find();
+    return { wishlistItems: items }
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -491,7 +497,18 @@ app.get("/cart", async (req, res) => {
     }
 });
 
-let array1 = [1, 2, 3, 4];
-let array2 = [...array1, 5];
-console.log(array2)
+// GET Route to get all wishlist
+app.get("/wishlist", async (req, res) => {
+    try {
+        let response = await getWishlistItems();
+        if (response.wishlistItems.length === 0) {
+            return res.status(404).json({ message: "No items found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
