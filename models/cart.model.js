@@ -4,6 +4,10 @@ const cartSchema = new mongoose.Schema({
     product: {
         type: Map,
         of: mongoose.Schema.Types.Mixed
+    },
+    quantity: {
+        type: Number,
+        default: 1
     }
 });
 
