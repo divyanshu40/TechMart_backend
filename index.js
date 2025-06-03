@@ -329,6 +329,33 @@ async function getWishlistItems() {
     return { wishlistItems: items }
 }
 
+// function to update item in the cart
+async function updateCartItems(itemId, updatedData) {
+    let updatedItem = await cart.findByIdAndUpdate(itemId, updatedData, { new: true });
+    if (! updatedData) {
+        return null;
+    }
+    return { message: "Item updated successfully", updatedItem}
+}
+
+// function to delete item from cart
+async function deleteCartItem(itemId) {
+    let deletedItem = await cart.findByIdAndDelete(itemId);
+    if (! deletedItem) {
+        return null
+    }
+    return { message: "Item deleted successfully", deletedItem}
+}
+
+// function to delete item from wishlist
+async function deleteWishlistItem(itemId) {
+    let deletedItem = await wishlist.findByIdAndDelete(itemId);
+    if (! deletedItem) {
+        return null
+    }
+    return { message: "Item deleted successfully", deletedItem }
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -510,5 +537,45 @@ app.get("/wishlist", async (req, res) => {
     }
 });
 
+// POST route to update item in the cart
+app.post("/cart/update/:id", async (req, res) => {
+    let itemId = req.params.id;
+    let updatedData = req.body;
+    try {
+        let response = await updateCartItems(itemId, updatedData);
+        if (response === null) {
+            return res.status(404).json({ message: "Cart item not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
+// DELETE Route to remove an item from the cart
+app.delete("/cart/delete/:id", async (req, res) => {
+    let itemId = req.params.id;
+    try {
+        let response = await deleteCartItem(itemId);
+        if (response === null) {
+            return res.status(404).json({ message: "Item not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
+// DELETE Route to remove an item from wishlist
+app.delete("/wishlist/delete/:id", async (req, res) => {
+    let itemId = req.params.id;
+    try {
+        let response = await deleteWishlistItem(itemId);
+        if (response === null) {
+            return res.status(404).json({ message: "Item not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
