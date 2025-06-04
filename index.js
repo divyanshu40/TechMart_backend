@@ -5,6 +5,8 @@ const { initializeDatabase } = require("./db/db.connect");
 const { laptop } = require("./models/laptop.model");
 const { cart } = require("./models/cart.model");
 const {wishlist } = require("./models/wishlist.model");
+const { techmartUser } = require("./models/user.model")
+const { order } = require("./models/order.model");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -396,6 +398,17 @@ app.post("/wishlist/new", async (req, res) => {
     try {
         let addedProductData = await new wishlist(productData).save();
         return res.status(201).json({ message: "Item added to wishlist", wishlist: addedProductData });
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// POST route to add user details
+app.post("/users/new", async (req, res) => {
+    let userDetails = req.body;
+    try {
+        let addedUserData = await new techmartUser(userDetails).save();
+        return res.status(201).json({ user: addedUserData });
     } catch(error) {
         res.status(500).json({ error: error.message });
     }
