@@ -417,13 +417,14 @@ app.post("/users/new", async (req, res) => {
 // POST Route to add order details
 app.post('/orders/new', async (req, res) => {
     let orderData = req.body;
+    let addedOrders;
     try {
         if (typeof orderData === 'object') {
-             await new order(orderData).save();
+            addedOrders = await new order(orderData).save();
         } else if (Array.isArray(orderData)) {
-             await order.insertMany(orderData);
+            addedOrders = await order.insertMany(orderData);
         }
-        return res.status(201).json({ message: "Order placed successfully"});
+        return res.status(201).json(addedOrders);
     } catch(error) {
         res.status(500).json({ error: error.message });
     }
