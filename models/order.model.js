@@ -8,6 +8,18 @@ const orderSchema = new mongoose.Schema({
     orderQuantity: {
         type: Number,
         default: 1
+    },
+    orderOrignalPrice: {
+        type: Number
+    },
+    orderDiscountedPrice: {
+        type: Number
+    },
+    discountPercentage: {
+        type: Number
+    },
+    discount: {
+        type: Number
     }
 });
 
