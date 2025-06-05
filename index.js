@@ -419,7 +419,7 @@ app.post('/orders/new', async (req, res) => {
     let orderData = req.body;
     let addedOrders;
     try {
-        if (typeof orderData === 'object') {
+        if (typeof orderData === 'object' && ! Array.isArray(orderData)) {
             addedOrders = await new order(orderData).save();
         } else if (Array.isArray(orderData)) {
             addedOrders = await order.insertMany(orderData);
