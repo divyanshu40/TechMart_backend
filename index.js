@@ -414,6 +414,22 @@ app.post("/users/new", async (req, res) => {
     }
 });
 
+// POST Route to add order details
+app.post('/orders/new', async (req, res) => {
+    let orderData = req.body;
+    let response;
+    try {
+        if (typeof orderData === 'object') {
+            response = await new order(orderData).save();
+        } else if (Array.isArray(orderData)) {
+            response = await order.insertMany(orderData);
+        }
+        return res.status(201).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+})
+
 // GET route to get all mobiles
 app.get("/mobiles", async (req, res) => {
     try {
