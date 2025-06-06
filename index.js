@@ -358,6 +358,15 @@ async function deleteWishlistItem(itemId) {
     return { message: "Item deleted successfully", deletedItem }
 }
 
+// function to delete mutilple cart items
+async function deleteMultipleCartItems(filter) {
+    let deleteCartItem = await cart.deleteMany(filter);
+    if (! deleteCartItem) {
+        return null;
+    }
+    return { message: "Cart items deleted successfully", deletingAcknowledgement}
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -602,6 +611,20 @@ app.delete("/wishlist/delete/:id", async (req, res) => {
         let response = await deleteWishlistItem(itemId);
         if (response === null) {
             return res.status(404).json({ message: "Item not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// POST route to delete multiple cart items
+app.delete("/cart/delete/items", async (req, res) => {
+    let filter = req.body;
+    try {
+        let response = await deleteMultipleCartItems(filter);
+        if(response === null) {
+            return res.status(404).json({ message: "cart items cannot be deleted"});
         }
         return res.status(200).json(response);
     } catch(error) {
