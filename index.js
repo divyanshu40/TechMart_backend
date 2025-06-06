@@ -364,7 +364,7 @@ async function deleteMultipleCartItems(filter) {
     if (! deleteCartItem) {
         return null;
     }
-    return { message: "Cart items deleted successfully", deletingAcknowledgement}
+    return { message: "Cart items deleted successfully"}
 }
 
 // POST route to add mobile data
