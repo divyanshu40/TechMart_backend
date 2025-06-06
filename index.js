@@ -367,6 +367,18 @@ async function deleteMultipleCartItems(filter) {
     return { message: "Cart items deleted successfully"}
 }
 
+// function to get all order details
+async function getAllOrders() {
+    let orders = await order.find();
+    return { orders: orders };
+}
+
+// function to get recently added orders
+async function getRecentlyAddedOrders(numberOfOrders) {
+    let orders = await order.find().sort({ createdAt: -1 }).limit(numberOfOrders);
+    return { orders: orders }
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -625,6 +637,33 @@ app.post("/cart/delete/items", async (req, res) => {
         let response = await deleteMultipleCartItems(filter);
         if(response === null) {
             return res.status(404).json({ message: "cart items cannot be deleted"});
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET Route to get all the orders
+app.get("/orders", async (req, res) => {
+    try {
+        let response = await getAllOrders();
+        if (response.orders.length === 0) {
+            res.status(404).json({ message: "Orders not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET Route to get recently added orders
+app.get("/orders/recent/:count", async (req, res) => {
+    let count = req.params.count;
+    try {
+        let response = await getRecentlyAddedOrders(count);
+        if (response.orders.length === 0) {
+            return res.status(404).json({ message: "orders not found" });
         }
         return res.status(200).json(response);
     } catch(error) {
