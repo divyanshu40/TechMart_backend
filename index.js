@@ -619,7 +619,7 @@ app.delete("/wishlist/delete/:id", async (req, res) => {
 });
 
 // POST route to delete multiple cart items
-app.delete("/cart/delete/items", async (req, res) => {
+app.post("/cart/delete/items", async (req, res) => {
     let filter = req.body;
     try {
         let response = await deleteMultipleCartItems(filter);
