@@ -21,6 +21,8 @@ const orderSchema = new mongoose.Schema({
     discount: {
         type: Number
     }
+}, {
+    timestamps: true
 });
 
 const order = mongoose.model("order", orderSchema);
