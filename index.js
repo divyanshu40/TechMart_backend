@@ -379,6 +379,24 @@ async function getRecentlyAddedOrders(numberOfOrders) {
     return { orders: orders }
 }
 
+// function to get user details
+async function getUserDetails() {
+    let userDetails = await techmartUser.findOne();
+    if (! userDetails) {
+        return null;
+    }
+    return { user: userDetails }
+}
+
+// function to update user details
+async function updateUserDetails(userData) {
+    let updatedUserDetails = await techmartUser.findOneAndUpdate({}, userData, { new: true });
+    if(! updatedUserDetails) {
+        return null;
+    }
+    return { updatedUser: updatedUserDetails };
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -664,6 +682,33 @@ app.get("/orders/recent/:count", async (req, res) => {
         let response = await getRecentlyAddedOrders(count);
         if (response.orders.length === 0) {
             return res.status(404).json({ message: "orders not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET Route to get user details
+app.get("/user", async (req, res) => {
+    try {
+        let response = await getUserDetails();
+        if (response === null) {
+            return res.status(404).json({ message: "Use details not found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// POST Route update user details
+app.post("/user/update", async (req, res) => {
+    let userData = req.body;
+    try {
+        let response = await updateUserDetails(userData);
+        if (response === null) {
+            return res.status(404).json({ message: "No user found"});
         }
         return res.status(200).json(response);
     } catch(error) {
