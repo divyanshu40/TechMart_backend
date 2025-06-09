@@ -7,6 +7,7 @@ const { cart } = require("./models/cart.model");
 const {wishlist } = require("./models/wishlist.model");
 const { techmartUser } = require("./models/user.model")
 const { order } = require("./models/order.model");
+const { address } = require("./models/address.model");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -397,6 +398,12 @@ async function updateUserDetails(userData) {
     return { user: updatedUserDetails };
 }
 
+// function to get all address
+async function getAllAddress() {
+    let addresses = await address.find();
+    return { addresses: addresses };
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -466,6 +473,17 @@ app.post('/orders/new', async (req, res) => {
         return res.status(201).json(addedOrders);
     } catch(error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+// POST route to add new address
+app.post("/address/new", async (req, res) => {
+    let addressData = req.body;
+    try {
+        let addedAddress = await new address(addressData).save();
+        return res.status(201).json({ newAddress: addedAddress });
+    } catch(error) {
+       res.status(500).json({ error: error.message });
     }
 })
 
@@ -709,6 +727,19 @@ app.post("/user/update", async (req, res) => {
         let response = await updateUserDetails(userData);
         if (response === null) {
             return res.status(404).json({ message: "No user found"});
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET Route to get all addresses
+app.get("/addresses",async (req, res) => {
+    try {
+        let response = await getAllAddress();
+        if (response.addresses.length === 0) {
+            return res.status(404).json({ message: "No addresses found" });
         }
         return res.status(200).json(response);
     } catch(error) {
