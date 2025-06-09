@@ -782,7 +782,7 @@ app.post("/address/update/:id", async (req, res) => {
 
 // DELETE Route to delete address by id
 app.delete("/address/delete/:id", async (req, res) => {
-    let addressId = req.params.addressId;
+    let addressId = req.params.id;
     try {
         let response = await deleteAddressById(addressId);
         if (response === null) {
