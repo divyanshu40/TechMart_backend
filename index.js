@@ -404,6 +404,24 @@ async function getAllAddress() {
     return { addresses: addresses };
 }
 
+// function to update address by id
+async function updatedAddressById(addressId, updatedAddressData) {
+    let updatedAddress = await address.findByIdAndUpdate(addressId, updatedAddressData, { new: true });
+    if (! updatedAddress) {
+        return null;
+    }
+    return { updatedAddress: updatedAddress };
+}
+
+// function to delete address by id
+async function deleteAddressById(addressId) {
+    let deletedAddress = await address.findByIdAndDelete(addressId);
+    if (! deletedAddress) {
+        return null;
+    }
+    return { address: deletedAddress };
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -740,6 +758,35 @@ app.get("/addresses",async (req, res) => {
         let response = await getAllAddress();
         if (response.addresses.length === 0) {
             return res.status(404).json({ message: "No addresses found" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// POST Route to update address by id
+app.post("/address/update/:id", async (req, res) => {
+    let addressId = req.params.id;
+    let updatedAddressData = req.body;
+    try {
+        let response = await updatedAddressById(addressId, updatedAddressData);
+        if (response === null) {
+            return res.status(404).json({ message: "Address not found and cannot be updated"});
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// DELETE Route to delete address by id
+app.delete("/address/delete/:id", async (req, res) => {
+    let addressId = req.params.addressId;
+    try {
+        let response = await deleteAddressById(addressId);
+        if (response === null) {
+            return res.status(404).json({ message: "Address not found and cannot be deleted" });
         }
         return res.status(200).json(response);
     } catch(error) {
