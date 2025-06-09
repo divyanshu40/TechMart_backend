@@ -394,7 +394,7 @@ async function updateUserDetails(userData) {
     if(! updatedUserDetails) {
         return null;
     }
-    return { updatedUser: updatedUserDetails };
+    return { user: updatedUserDetails };
 }
 
 // POST route to add mobile data
