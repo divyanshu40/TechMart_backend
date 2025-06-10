@@ -422,6 +422,17 @@ async function deleteAddressById(addressId) {
     return { address: deletedAddress };
 }
 
+// function to get products on the basis of search
+async function getProductsBySearch(searchQuery) {
+    let regex = new RegExp(searchQuery, 'i');
+    let [mobiles, laptops] = await Promise.all([
+        mobile.find({ $or: [{ "generalFeatures.name": regex}, {"generalFeatures.brand": regex}] }),
+        laptop.find({ $or: [{ "generalFeatures.name": regex}, { "generalFeatures.brand": regex } ] })
+    ]);
+    let result = [...mobiles, ...laptops];
+    return { products: result };
+}
+
 // POST route to add mobile data
 app.post("/mobiles/new", async (req, res) => {
     const mobileData = req.body
@@ -787,6 +798,20 @@ app.delete("/address/delete/:id", async (req, res) => {
         let response = await deleteAddressById(addressId);
         if (response === null) {
             return res.status(404).json({ message: "Address not found and cannot be deleted" });
+        }
+        return res.status(200).json(response);
+    } catch(error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+//GET Route to get all products by search query
+app.get("/search", async (req, res) => {
+    let { q } = req.query;
+    try {
+        let response = await getProductsBySearch(q);
+        if (response.products.length === 0) {
+            return res.status(404).json({ message: "Invalid Search"});
         }
         return res.status(200).json(response);
     } catch(error) {
