@@ -376,7 +376,7 @@ async function getAllOrders() {
 
 // function to get recently added orders
 async function getRecentlyAddedOrders(numberOfOrders) {
-    let orders = await order.find().sort({ createdAt: -1 }).limit(numberOfOrders);
+    let orders = await order.find().sort({ createdAt: -1 }).limit(numberOfOrders).populate(shippingAddress);
     return { orders: orders }
 }
 
