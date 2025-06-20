@@ -20,6 +20,10 @@ const orderSchema = new mongoose.Schema({
     },
     discount: {
         type: Number
+    },
+    shippingAddress: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "address"
     }
 }, {
     timestamps: true
