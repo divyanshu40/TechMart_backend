@@ -493,6 +493,7 @@ app.post("/users/new", async (req, res) => {
 app.post('/orders/new', async (req, res) => {
     let orderData = req.body;
     let addedOrders;
+    let addedOrder;
     try {
         if (typeof orderData === 'object' && ! Array.isArray(orderData)) {
             addedOrder = await new order(orderData).save();
