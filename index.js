@@ -495,11 +495,13 @@ app.post('/orders/new', async (req, res) => {
     let addedOrders;
     try {
         if (typeof orderData === 'object' && ! Array.isArray(orderData)) {
-            addedOrders = await new order(orderData).save();
+            addedOrder = await new order(orderData).save();
+            return res.status(201).json(addedOrder);
         } else if (Array.isArray(orderData)) {
             addedOrders = await order.insertMany(orderData);
+            return res.status(201).json(addedOrders);
         }
-        return res.status(201).json(addedOrders);
+        
     } catch(error) {
         res.status(500).json({ error: error.message });
     }
