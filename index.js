@@ -6,7 +6,7 @@ const { laptop } = require("./models/laptop.model");
 const { cart } = require("./models/cart.model");
 const {wishlist } = require("./models/wishlist.model");
 const { techmartUser } = require("./models/user.model")
-const { order } = require("./models/order.model");
+const { order, order } = require("./models/order.model");
 const { address } = require("./models/address.model");
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -376,7 +376,7 @@ async function getAllOrders() {
 
 // function to get recently added orders
 async function getRecentlyAddedOrders(numberOfOrders) {
-    let orders = await order.find().sort({ createdAt: -1 }).limit(numberOfOrders).populate(shippingAddress);
+    let orders = await order.find().sort({ createdAt: -1 }).limit(numberOfOrders).populate("shippingAddress");
     return { orders: orders }
 }
 
@@ -431,6 +431,18 @@ async function getProductsBySearch(searchQuery) {
     ]);
     let result = [...mobiles, ...laptops];
     return { products: result };
+}
+
+// function to get added order
+async function AddOrder(orderData) {
+    if (typeof orderData === "object" && !Array.isArray(orderData)) {
+        let addedOrder = await new order(orderData).save();
+        let orderDetails = await order.find().sort({ createdAt: -1 }).limit(1).populate("shippingAddress");
+        return orderDetails;
+    } else if (typeof orderData === "object" && Array.isArray(orderData)) {
+        let addedOrders = await order.insertMany(orderData);
+        return addedOrders;
+    }
 }
 
 // POST route to add mobile data
@@ -492,16 +504,9 @@ app.post("/users/new", async (req, res) => {
 // POST Route to add order details
 app.post('/orders/new', async (req, res) => {
     let orderData = req.body;
-    let addedOrders;
-    let addedOrder;
     try {
-        if (typeof orderData === 'object' && ! Array.isArray(orderData)) {
-            addedOrder = await new order(orderData).save();
-            return res.status(201).json(addedOrder);
-        } else if (Array.isArray(orderData)) {
-            addedOrders = await order.insertMany(orderData);
-            return res.status(201).json(addedOrders);
-        }
+      let response = await AddOrder(orderData);
+      return res.status(201).json(response);
         
     } catch(error) {
         res.status(500).json({ error: error.message });
